@@ -1,0 +1,41 @@
+## Yêu cầu 8: Tạo branch feature-dogiahuy-rebase
+1. Từ branch `feature-dogiahuy`, tạo một branch mới có tên `feature-dogiahuy-rebase`:
+git checkout -b feature-dogiahuy-rebase
+2. Branch này sẽ chứa đầy đủ các commit từ branch `feature-dogiahuy`.
+
+## Yêu cầu 9: Gộp 3 commit thành 1 commit duy nhất với message “Git rebase”
+1. Thực hiện lệnh rebase interactive để làm việc với 3 commit cuối:
+git rebase -i HEAD~3
+2. Git sẽ mở trình chỉnh sửa (Vim). Trong trình chỉnh sửa, thay từ `pick` thành `squash` cho commit thứ 2 và thứ 3:
+pick abc123 Commit message 1 (Thêm file commit1.txt nội dung tùy ý) squash def456 Commit message 2 (Thêm file commit2.txt nội dung tùy ý) squash ghi789 Commit message 3 (Thêm file commit3.txt nội dung tùy ý)
+3. Sau khi lưu và thoát, chỉnh sửa lại commit message thành:
+Git rebase
+Lưu và thoát trình chỉnh sửa. Git sẽ gộp 3 commit thành 1 commit duy nhất với message là `Git rebase`.
+
+## Yêu cầu 10: Tạo branch feature-dogiahuy-merge
+1. Từ branch `feature-dogiahuy-rebase`, tạo một branch mới có tên `feature-dogiahuy-merge`:
+git checkout -b feature-dogiahuy-merge
+
+## Yêu cầu 11: Xóa commit “Git rebase”
+1. Sử dụng lệnh rebase interactive để xóa commit cuối cùng:
+git rebase -i HEAD~1
+2. Trong trình chỉnh sửa (Vim), thay từ `pick` thành `drop`:
+drop abc123 Git rebase 
+3. :w rồi :q
+
+## Yêu cầu 12: Sửa nội dung của file1.txt, file2.txt và file3.txt
+1. Mở các file và thay đổi nội dung hoàn toàn. Ví dụ:
+echo "Nội dung mới cho file1.txt" > file1.txt echo "Nội dung mới cho file2.txt" > file2.txt echo "Nội dung mới cho file3.txt" > file3.txt
+
+## Yêu cầu 13: Commit lại với nội dung "Git conflict"
+1. Thêm các file đã sửa vào staging area và commit với message “Git conflict”:
+git add file1.txt file2.txt file3.txt git commit -m "Git conflict"
+
+## Yêu cầu 14: Merge với branch feature-dogiahuy và giải quyết conflict nếu có
+1. Thực hiện merge branch `feature-dogiahuy` vào branch `feature-dogiahuy-merge`:
+git merge feature-dogiahuy
+2. Nếu có conflict, mở các file bị conflict, sửa nội dung để chọn đúng thay đổi mong muốn, sau đó thêm vào staging area:
+git add <tên_file_conflict>
+3. Sau khi sửa xong và không còn conflict, hoàn tất merge bằng lệnh:
+git commit
+Nếu merge không gây conflict, Git sẽ tự động thực hiện commit.
