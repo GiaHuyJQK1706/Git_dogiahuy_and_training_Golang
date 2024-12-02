@@ -30,28 +30,44 @@ type PersonInterface interface {
 }
 
 func (p *Person) SetName(name string) error {
-	if matched, _ := regexp.MatchString(`^[A-Z][a-zA-Z]*$`, name); !matched {
+	matched, err := regexp.MatchString(`^[A-Z][a-zA-Z]*$`, name)
+	if err != nil {
+    		return fmt.Errorf("Error while validating name: %v", err)
+	}
+	if !matched {
 		return errors.New("Ten khong hop le: Phai bat dau bang chu cai in hoa (A-Z)")
 	}
+	
 	p.name = name
+	
 	return nil
 }
 
 func (p *Person) SetBirthdayYear(year int) error {
 	currentYear := time.Now().Year()
-	if year < 1900 || year > currentYear {
+	if year < 1900 {
 		return errors.New("Nam sinh khong hop le: Phai tu 1900 tro lai")
+	} else if year > currentYear {
+		return errors.New("Nam sinh khong hop le: Khong duoc vuot qua nam nay")
 	}
+	
 	p.birthdayYear = year
 	p.age = currentYear - year
+	
 	return nil
 }
 
 func (p *Person) SetEmail(email string) error {
-	if matched, _ := regexp.MatchString(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, email); !matched {
-		return errors.New("EMail khong hop le")
+	matched, err := regexp.MatchString(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, email)
+	if err != nil {
+    		return fmt.Errorf("Error while validating email: %v", err)
 	}
+	if !matched {
+    		return errors.New("Email khong hop le")
+	}
+
 	p.email = email
+	
 	return nil
 }
 
@@ -70,7 +86,9 @@ func (p *Person) SetPhone(phone string) error {
 	} else {
 		return errors.New("SDT khong hop le: Phai bat dau bang 0 hoac +")
 	}
+	
 	p.phone = phone
+	
 	return nil
 }
 
