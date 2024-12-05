@@ -2,6 +2,7 @@ package entity
 
 import "time"
 
+// Co the dung ORM- GORM
 type User struct {
 	ID        int64
 	FirstName string
