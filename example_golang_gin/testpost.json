@@ -1,0 +1,25 @@
+/*
+Mỗi test thêm 1 trường json như dưới
+*/
+//Test 1
+    {
+        "first_name": "Nguyen",
+        "last_name": "Anh Tuan",
+        "email": "nguyenanhtuan@example.com",
+        "password": "tuan2109"
+    }
+//Test 2
+    {
+        "first_name": "Do Nguyen",
+        "last_name": "Ha Nam",
+        "email": "donguyenhanam@example.com",
+        "password": "hanam1506"
+    }
+//Test 3
+    {
+        "first_name": "Tran",
+        "last_name": "Anh Thu",
+        "email": "tranannhthu@example.com",
+        "password": "anhthu2003"
+    }
+
