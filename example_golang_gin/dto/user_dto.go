@@ -1,6 +1,7 @@
 package dto //Bai 3
 
-type CreateUserRequest struct { // Bai 4
+// Bai 4 lam trong do luon
+type CreateUserRequest struct { 
 	FirstName string `json:"first_name" binding:"required"`
 	LastName  string `json:"last_name" binding:"required"`
 	Email     string `json:"email" binding:"required,email"`
