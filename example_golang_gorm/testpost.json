@@ -1,0 +1,17 @@
+/*
+Mỗi test thêm 1 trường json như dưới
+*/
+//Test 1
+{
+    "user": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "email": "john.doe@example.com",
+      "password": "password123"
+    },
+    "project": {
+      "name": "Project MonstarLab",
+      "project_started_at": "2024-12-12T10:00:00Z"
+    }
+}
+  
