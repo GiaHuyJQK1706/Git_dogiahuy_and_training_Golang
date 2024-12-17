@@ -19,15 +19,15 @@ func NewUserHandler(userUsecase usecase.UserUsecaseInterface) *UserHandler {
 }
 
 // Bai 4: Hàm tạo user và project của user đó (Chỉ 1 user mới và 1 project mới)
-func (h *UserHandler) CreateUserWithProject(c *gin.Context) {
-	var req struct {
-		User    dto.CreateUserRequest `json:"user"`
-		Project struct {
-			Name             string `json:"name" binding:"required"`
-			ProjectStartedAt string `json:"project_started_at" binding:"required"`
-		} `json:"project"`
-	}
+var req struct {
+	User    dto.CreateUserRequest `json:"user"`
+	Project struct {
+		Name             string `json:"name" binding:"required"`
+		ProjectStartedAt string `json:"project_started_at" binding:"required"`
+	} `json:"project"`
+}
 
+func (h *UserHandler) CreateUserWithProject(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -69,6 +69,7 @@ func (h *UserHandler) GetUserWithProjects(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID format"})
 		return
 	}
+
 	user, err := h.UserUsecase.GetUserByID(id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})

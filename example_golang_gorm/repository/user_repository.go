@@ -24,6 +24,7 @@ func (r *UserRepository) Insert(user *entity.User) (*entity.User, error) {
 	if err := r.DB.Create(user).Error; err != nil {
 		return nil, err
 	}
+
 	return user, nil
 }
 
@@ -33,5 +34,6 @@ func (r *UserRepository) FindByID(id int64) (*entity.User, error) {
 	if err := r.DB.Preload("Projects").First(&user, id).Error; err != nil {
 		return nil, err
 	}
+	
 	return &user, nil
 }

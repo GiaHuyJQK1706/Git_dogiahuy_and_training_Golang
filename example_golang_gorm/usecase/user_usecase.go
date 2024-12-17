@@ -29,6 +29,7 @@ func GetCurrentTimeUTC7() (time.Time, error) {
 	if err != nil {
 		return time.Time{}, fmt.Errorf("failed to load location: %v", err)
 	}
+	
 	return time.Now().In(location), nil
 }
 
@@ -53,4 +54,3 @@ func (u *UserUsecase) CreateUser(user *entity.User) (*entity.User, error) {
 func (u *UserUsecase) GetUserByID(id int64) (*entity.User, error) {
 	return u.UserRepo.FindByID(id)
 }
-
