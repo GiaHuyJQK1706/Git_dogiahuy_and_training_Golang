@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"project_demo/dto"
 	"project_demo/usecase"
+	"project_demo/validators"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,19 @@ func (h *ProjectHandler) CreateProject(c *gin.Context) {
 		return
 	}
 
+	// Custom validation, check validation
+	if err := validator.ValidateCategory(request.Category); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if err := validator.ValidateProjectDates(*request.ProjectStartedAt, *request.ProjectEndedAt); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// Check xong validation
+	
+	// Cac cau lenh duoi duoc thuc hien khi validation check thanh cong (Check xong validation)
 	project, err := h.ProjectUC.CreateProject(request)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
