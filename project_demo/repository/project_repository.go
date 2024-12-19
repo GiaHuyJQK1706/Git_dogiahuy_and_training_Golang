@@ -12,6 +12,7 @@ type ProjectRepository interface {
 	Delete(id uint) error
 	GetByID(id uint) (entities.Project, error)
 	List() ([]entities.Project, error)
+	GetProjectsByUserID(userID uint) ([]entities.Project, error)
 }
 
 type projectRepository struct {
@@ -44,6 +45,15 @@ func (r *projectRepository) GetByID(id uint) (entities.Project, error) {
 func (r *projectRepository) List() ([]entities.Project, error) {
 	var projects []entities.Project
 	err := r.DB.Find(&projects).Error
+	return projects, err
+}
+
+// Lay (Xem) danh sach cac project theo nguoi dung
+func (r *projectRepository) GetProjectsByUserID(userID uint) ([]entities.Project, error) {
+	var projects []entities.Project
+	err := r.DB.Preload("Users").Where("id IN (?)",
+		r.DB.Table("project_users").Select("project_id").Where("user_id = ?", userID),
+	).Find(&projects).Error
 	return projects, err
 }
 

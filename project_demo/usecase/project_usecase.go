@@ -12,10 +12,11 @@ type ProjectUsecase interface {
 	DeleteProject(id uint) error
 	GetProjectByID(id uint) (entities.Project, error)
 	ListProjects() ([]entities.Project, error)
+	GetProjectsByUser(userID uint) ([]entities.Project, error)
 }
 
 type projectUsecase struct {
-	PrọectRepo repository.ProjectRepository
+	ProjectRepo repository.ProjectRepository
 }
 
 // Tao project moi
@@ -25,17 +26,17 @@ func (puc *projectUsecase) CreateProject(request dto.CreateProjectRequest) (enti
 		Category:         request.Category,
 		ProjectSpend:     request.ProjectSpend,
 		ProjectVariance:  request.ProjectVariance,
-		ProjectStartedAt: *request.ProjectStartedAt,
-		ProjectEndedAt:   request.ProjectEndedAt,
+		ProjectStartedAt: request.ProjectStartedAt,
+		ProjectEndedAt:   *request.ProjectEndedAt,
 	}
 
-	err := puc.PrọectRepo.Create(&project)
+	err := puc.ProjectRepo.Create(&project)
 	return project, err
 }
 
 // Cap nhat project
 func (puc *projectUsecase) UpdateProject(id uint, request dto.CreateProjectRequest) (entities.Project, error) {
-	project, err := puc.PrọectRepo.GetByID(id)
+	project, err := puc.ProjectRepo.GetByID(id)
 	if err != nil {
 		return project, err
 	}
@@ -44,29 +45,34 @@ func (puc *projectUsecase) UpdateProject(id uint, request dto.CreateProjectReque
 	project.Category = request.Category
 	project.ProjectSpend = request.ProjectSpend
 	project.ProjectVariance = request.ProjectVariance
-	project.ProjectStartedAt = *request.ProjectStartedAt
-	project.ProjectEndedAt = request.ProjectEndedAt
+	project.ProjectStartedAt = request.ProjectStartedAt
+	project.ProjectEndedAt = *request.ProjectEndedAt
 
-	err = puc.PrọectRepo.Update(&project)
+	err = puc.ProjectRepo.Update(&project)
 	return project, err
 }
 
 // Xoa project
 func (puc *projectUsecase) DeleteProject(id uint) error {
-	return puc.PrọectRepo.Delete(id)
+	return puc.ProjectRepo.Delete(id)
 }
 
 // Lay (Xem chi tiet) project theo ID
 func (puc *projectUsecase) GetProjectByID(id uint) (entities.Project, error) {
-	return puc.PrọectRepo.GetByID(id)
+	return puc.ProjectRepo.GetByID(id)
 }
 
 // Lay (Xem) danh sach tat ca cac project
 func (puc *projectUsecase) ListProjects() ([]entities.Project, error) {
-	return puc.PrọectRepo.List()
+	return puc.ProjectRepo.List()
+}
+
+// Lay (Xem) danh sach cac project theo nguoi dung
+func (puc *projectUsecase) GetProjectsByUser(userID uint) ([]entities.Project, error) {
+	return puc.ProjectRepo.GetProjectsByUserID(userID)
 }
 
 // DI
 func NewProjectUsecase(repo repository.ProjectRepository) ProjectUsecase {
-	return &projectUsecase{PrọectRepo: repo}
+	return &projectUsecase{ProjectRepo: repo}
 }

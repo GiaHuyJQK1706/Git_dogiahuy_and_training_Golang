@@ -9,8 +9,8 @@ type CreateProjectRequest struct {
 	Category         string     `json:"category"`
 	ProjectSpend     int        `json:"project_spend"`
 	ProjectVariance  int        `json:"project_variance"`
-	ProjectStartedAt *time.Time `json:"project_started_at" binding:"required"`
-	ProjectEndedAt   *time.Time `json:"project_ended_at"`
+	ProjectStartedAt time.Time  `json:"project_started_at" binding:"required"`
+	ProjectEndedAt   *time.Time  `json:"project_ended_at"`
 }
 
 type CreateProjectResponse struct {
@@ -18,6 +18,11 @@ type CreateProjectResponse struct {
 	Category         string     `json:"category"`
 	ProjectSpend     int        `json:"project_spend"`
 	ProjectVariance  int        `json:"project_variance"`
-	ProjectStartedAt *time.Time `json:"project_started_at"`
+	ProjectStartedAt time.Time  `json:"project_started_at"`
 	ProjectEndedAt   *time.Time `json:"project_ended_at"`
 }
+
+/*
+ * Khi truong nao co the la null thi se dat con tro
+ * Khi truong nao khong the la null thi khong duoc dat con tro
+*/

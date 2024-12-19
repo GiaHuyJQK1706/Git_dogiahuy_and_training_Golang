@@ -15,4 +15,9 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 		projectRoutes.GET("/:id", projectHandler.GetProjectByID)
 		projectRoutes.GET("/", projectHandler.ListProjects)
 	}
+
+	userRoutes := router.Group("/api/users")
+	{
+		userRoutes.GET("/:user_id/projects", projectHandler.GetProjectsByUser) // Lấy danh sách projects của user
+	}
 }

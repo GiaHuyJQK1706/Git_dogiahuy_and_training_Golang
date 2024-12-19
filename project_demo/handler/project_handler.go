@@ -28,7 +28,7 @@ func (h *ProjectHandler) CreateProject(c *gin.Context) {
 		return
 	}
 
-	if err := validator.ValidateProjectDates(*request.ProjectStartedAt, *request.ProjectEndedAt); err != nil {
+	if err := validator.ValidateProjectDates(request.ProjectStartedAt, *request.ProjectEndedAt); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -95,4 +95,22 @@ func (h *ProjectHandler) ListProjects(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, projects)
+}
+
+// API lay (Xem) danh sach cac project theo nguoi dung
+func (h *ProjectHandler) GetProjectsByUser(c *gin.Context) {
+	userIDParam := c.Param("user_id")
+	userID, err := strconv.Atoi(userIDParam)
+	if err != nil || userID <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	projects, err := h.ProjectUC.GetProjectsByUser(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"projects": projects})
 }
