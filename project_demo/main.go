@@ -16,12 +16,17 @@ func main() {
 
 	// Initialize repository, usecase, and handler
 	projectRepo := repository.NewProjectRepository(db)
+	userRepo := repository.NewUserRepository(db)
+
 	projectUC := usecase.NewProjectUsecase(projectRepo)
+	userUC := usecase.NewUserUsecase(userRepo)
+
 	projectHandler := handler.ProjectHandler{ProjectUC: projectUC}
+	userHandler := handler.UserHandler{UserUC: userUC}
 
 	// Setup routes
 	router := gin.Default()
-	routes.SetupProjectRoutes(router, projectHandler)
+	routes.SetupProjectRoutes(router, projectHandler, userHandler)
 
 	// Start server
 	router.Run(":8080")

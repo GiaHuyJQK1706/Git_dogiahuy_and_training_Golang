@@ -45,6 +45,7 @@ func InitDB() *gorm.DB {
 	err = DB.AutoMigrate(
 		&entities.Project{}, // Add your entities here
 		&entities.ProjectUser{},
+		&entities.User{},
 		// Add more entities as needed
 	)
 	if err != nil {

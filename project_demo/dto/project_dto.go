@@ -10,7 +10,7 @@ type CreateProjectRequest struct {
 	ProjectSpend     int        `json:"project_spend"`
 	ProjectVariance  int        `json:"project_variance"`
 	ProjectStartedAt time.Time  `json:"project_started_at" binding:"required"`
-	ProjectEndedAt   *time.Time  `json:"project_ended_at"`
+	ProjectEndedAt   *time.Time `json:"project_ended_at"`
 }
 
 type CreateProjectResponse struct {

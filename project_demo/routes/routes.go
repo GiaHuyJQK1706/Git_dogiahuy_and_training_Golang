@@ -6,8 +6,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandler) {
-	projectRoutes := router.Group("/api/projects") //127.0.0.1:<port>/api/project/
+func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandler, userHandler handler.UserHandler) {
+	projectRoutes := router.Group("/api/projects") // 127.0.0.1:<port>/api/project/
 	{
 		projectRoutes.POST("/create", projectHandler.CreateProject)
 		projectRoutes.PUT("/:id", projectHandler.UpdateProject)
@@ -16,8 +16,12 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 		projectRoutes.GET("/", projectHandler.ListProjects)
 	}
 
-	userRoutes := router.Group("/api/users")
+	userRoutes := router.Group("/api/users") // 127.0.0.1:<port>/api/user/
 	{
 		userRoutes.GET("/:user_id/projects", projectHandler.GetProjectsByUser) // Lấy danh sách projects của user
+		userRoutes.POST("/creare", userHandler.CreateUser)
+		userRoutes.PUT("/:id", userHandler.UpdateUser)
+		projectRoutes.DELETE("/:id", userHandler.DeleteUser)
+		projectRoutes.GET("/:id", userHandler.GetUserByID)
 	}
 }
