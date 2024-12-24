@@ -26,3 +26,10 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 		userRoutes.GET("/:user_id/projects/export_csv", projectHandler.ExportProjectsByUserCSV)
 	}
 }
+
+func SetupAuthRoutes(router *gin.Engine, authHandler handler.AuthHandler) {
+	authRoutes := router.Group("/api/auth") // 127.0.0.1:<port>/api/auth/
+	{
+		authRoutes.POST("/token", authHandler.GenerateToken)
+	}
+}

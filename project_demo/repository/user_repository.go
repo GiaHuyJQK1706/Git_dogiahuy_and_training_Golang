@@ -11,6 +11,7 @@ type UserRepository interface {
 	Update(project *entities.User) error
 	Delete(id uint) error
 	GetByID(id uint) (entities.User, error)
+	FindByEmail(email string) (entities.User, error)
 }
 
 type userRepository struct {
@@ -39,6 +40,12 @@ func (r *userRepository) GetByID(id uint) (entities.User, error) {
 	return user, err
 }
 
+// Tim user theo email
+func (r *userRepository) FindByEmail(email string) (entities.User, error) {
+	var user entities.User
+	err := r.DB.Where("email = ?", email).First(&user).Error
+	return user, err
+}
 // DI
 func NewUserRepository(db *gorm.DB) UserRepository {
 	return &userRepository{DB: db}

@@ -27,6 +27,7 @@ func main() {
 	// Setup routes
 	router := gin.Default()
 	routes.SetupProjectRoutes(router, projectHandler, userHandler)
+	routes.SetupAuthRoutes(router, handler.AuthHandler{UserRepo: userRepo})
 
 	// Start server
 	router.Run(":8080")

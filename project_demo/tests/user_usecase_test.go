@@ -36,6 +36,11 @@ func (m *MockUserRepository) GetByID(id uint) (entities.User, error) {
 	return args.Get(0).(entities.User), args.Error(1)
 }
 
+func (m *MockUserRepository) FindByEmail(email string) (entities.User, error) {
+	args := m.Called(email)
+	return args.Get(0).(entities.User), args.Error(1)
+}
+
 func TestCreateUserUsecase(t *testing.T) {
 	mockRepo := new(MockUserRepository)
 	uc := usecase.NewUserUsecase(mockRepo)
