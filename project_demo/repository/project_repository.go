@@ -48,7 +48,7 @@ func (r *projectRepository) List() ([]entities.Project, error) {
 	return projects, err
 }
 
-// Lay (Xem) danh sach cac project theo nguoi dung
+// Lay (Xem) danh sach cac project theo nguoi dung (Du lieu nho, gorm)
 func (r *projectRepository) GetProjectsByUserID(userID uint) ([]entities.Project, error) {
 	var projects []entities.Project
 	err := r.DB.Preload("Users").Where("id IN (?)",
@@ -56,6 +56,16 @@ func (r *projectRepository) GetProjectsByUserID(userID uint) ([]entities.Project
 	).Find(&projects).Error
 	return projects, err
 }
+
+/* Lay (Xem) danh sach cac project theo nguoi dung (Du lieu lon, sql indexing)
+func (r *projectRepository) FindProjectsByUserID(userID uint) ([]entities.Project, error) {
+	var projects []entities.Project
+	err := r.DB.Joins("JOIN project_users ON projects.id = project_users.project_id").
+		Where("project_users.user_id = ?", userID).
+		Find(&projects).Error
+	return projects, err
+}
+*/
 
 // DI
 func NewProjectRepository(db *gorm.DB) ProjectRepository {

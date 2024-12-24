@@ -18,10 +18,11 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 
 	userRoutes := router.Group("/api/users") // 127.0.0.1:<port>/api/user/
 	{
-		userRoutes.GET("/:user_id/projects", projectHandler.GetProjectsByUser) // Lấy danh sách projects của user
+		userRoutes.GET("/:user_id/projects", projectHandler.GetProjectsByUser) // Lấy danh sách projects của user, in ra màn hình
 		userRoutes.POST("/creare", userHandler.CreateUser)
 		userRoutes.PUT("/:id", userHandler.UpdateUser)
-		projectRoutes.DELETE("/:id", userHandler.DeleteUser)
-		projectRoutes.GET("/:id", userHandler.GetUserByID)
+		userRoutes.DELETE("/:id", userHandler.DeleteUser)
+		userRoutes.GET("/:id", userHandler.GetUserByID)
+		userRoutes.GET("/:user_id/projects/export_csv", projectHandler.ExportProjectsByUserCSV)
 	}
 }

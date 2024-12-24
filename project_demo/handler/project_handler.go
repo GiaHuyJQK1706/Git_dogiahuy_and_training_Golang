@@ -6,6 +6,7 @@ import (
 	"project_demo/usecase"
 	"project_demo/validators"
 	"strconv"
+	"encoding/csv" 
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +22,7 @@ func (h *ProjectHandler) CreateProject(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
+	
 	// Custom validation, check validation
 	if err := validator.ValidateCategory(request.Category); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -113,4 +114,42 @@ func (h *ProjectHandler) GetProjectsByUser(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"projects": projects})
+}
+
+// API xuat du lieu CSV project theo ID nguoi dung 
+func (h *ProjectHandler) ExportProjectsByUserCSV(c *gin.Context) {
+	userIDParam := c.Param("user_id")
+	userID, err := strconv.Atoi(userIDParam)
+	if err != nil || userID <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid user ID"})
+		return
+	}
+
+	projects, err := h.ProjectUC.GetProjectsByUser(uint(userID))
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	// Tạo file CSV
+	c.Header("Content-Type", "text/csv")
+	c.Header("Content-Disposition", "attachment;filename=projects.csv")
+
+	writer := csv.NewWriter(c.Writer)
+	defer writer.Flush()
+
+	// Ghi header
+	writer.Write([]string{"No", "Name", "Category", "Projected Spend", "Projected Variance", "Revenue Recognised"})
+
+	// Ghi data
+	for i, project := range projects {
+		writer.Write([]string{
+			strconv.Itoa(i + 1),
+			project.Name,
+			project.Category,
+			strconv.Itoa(project.ProjectSpend),
+			strconv.Itoa(project.ProjectVariance),
+			strconv.Itoa(project.RevenueRecognised),
+		})
+	}
 }
