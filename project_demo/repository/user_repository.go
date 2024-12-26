@@ -37,6 +37,7 @@ func (r *userRepository) Delete(id uint) error {
 func (r *userRepository) GetByID(id uint) (entities.User, error) {
 	var user entities.User
 	err := r.DB.First(&user, id).Error
+	
 	return user, err
 }
 
@@ -44,6 +45,7 @@ func (r *userRepository) GetByID(id uint) (entities.User, error) {
 func (r *userRepository) FindByEmail(email string) (entities.User, error) {
 	var user entities.User
 	err := r.DB.Where("email = ?", email).First(&user).Error
+
 	return user, err
 }
 // DI

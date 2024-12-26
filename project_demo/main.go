@@ -15,12 +15,15 @@ func main() {
 	db := config.InitDB()
 
 	// Initialize repository, usecase, and handler
+	// Initialize repository: projectRepo, userRepo
 	projectRepo := repository.NewProjectRepository(db)
 	userRepo := repository.NewUserRepository(db)
 
+	// Initialize usecase: projectUC, userUC
 	projectUC := usecase.NewProjectUsecase(projectRepo)
 	userUC := usecase.NewUserUsecase(userRepo)
 
+	// Initialize handler: projectHandler, userHandler
 	projectHandler := handler.ProjectHandler{ProjectUC: projectUC}
 	userHandler := handler.UserHandler{UserUC: userUC}
 

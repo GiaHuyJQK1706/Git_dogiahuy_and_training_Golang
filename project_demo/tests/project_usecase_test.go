@@ -18,31 +18,37 @@ type MockProjectRepository struct {
 
 func (m *MockProjectRepository) Create(project *entities.Project) error {
 	args := m.Called(project)
+	
 	return args.Error(0)
 }
 
 func (m *MockProjectRepository) Update(project *entities.Project) error {
 	args := m.Called(project)
+
 	return args.Error(0)
 }
 
 func (m *MockProjectRepository) Delete(id uint) error {
 	args := m.Called(id)
+
 	return args.Error(0)
 }
 
 func (m *MockProjectRepository) GetByID(id uint) (entities.Project, error) {
 	args := m.Called(id)
+
 	return args.Get(0).(entities.Project), args.Error(1)
 }
 
 func (m *MockProjectRepository) List() ([]entities.Project, error) {
 	args := m.Called()
+
 	return args.Get(0).([]entities.Project), args.Error(1)
 }
 
 func (m *MockProjectRepository) GetProjectsByUserID(userID uint) ([]entities.Project, error) {
 	args := m.Called(userID)
+
 	return args.Get(0).([]entities.Project), args.Error(1)
 }
 

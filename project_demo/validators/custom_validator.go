@@ -20,6 +20,7 @@ func ValidatePassword(password string) error {
 	if !hasUppercase || !hasLowercase || !hasDigit {
 		return errors.New("password must contain at least one uppercase letter, one lowercase letter, and one number")
 	}
+	
 	return nil
 }
 
@@ -34,6 +35,7 @@ func ValidateCategory(category string) error {
 	if _, exists := validCategories[category]; !exists {
 		return errors.New("category must be one of 'client', 'non-billable', 'system'")
 	}
+
 	return nil
 }
 
@@ -44,8 +46,10 @@ func ValidateProjectDates(start, end time.Time) error {
 	if start.Before(now) {
 		return errors.New("project_started_at must be greater than the current time")
 	}
+
 	if !end.IsZero() && end.Before(start) {
 		return errors.New("project_ended_at must be greater than project_started_at")
 	}
+
 	return nil
 }

@@ -15,6 +15,7 @@ import (
 func setupTestUserDB() *gorm.DB {
 	db, _ := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
 	db.AutoMigrate(&entities.User{})
+	
 	return db
 }
 

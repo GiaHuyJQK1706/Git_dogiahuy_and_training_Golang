@@ -31,6 +31,7 @@ func ValidateJWT(tokenString string) (*jwt.Token, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
 		}
+
 		return jwtSecretKey, nil
 	})
 }
@@ -38,11 +39,13 @@ func ValidateJWT(tokenString string) (*jwt.Token, error) {
 // HashPassword - Ma hoa mat khau bang cach bam
 func HashPassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+
 	return string(hash), err
 }
 
 // CheckPasswordHash - Kiem tra mat khau co trung khop voi hash hay khong
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	
 	return err == nil
 }

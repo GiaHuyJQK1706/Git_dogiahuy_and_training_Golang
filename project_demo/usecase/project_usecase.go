@@ -31,6 +31,7 @@ func (puc *projectUsecase) CreateProject(request dto.CreateProjectRequest) (enti
 	}
 
 	err := puc.ProjectRepo.Create(&project)
+	
 	return project, err
 }
 
@@ -49,6 +50,7 @@ func (puc *projectUsecase) UpdateProject(id uint, request dto.CreateProjectReque
 	project.ProjectEndedAt = *request.ProjectEndedAt
 
 	err = puc.ProjectRepo.Update(&project)
+
 	return project, err
 }
 

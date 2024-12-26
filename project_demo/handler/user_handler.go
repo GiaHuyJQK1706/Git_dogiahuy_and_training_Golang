@@ -41,7 +41,11 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 
 // API cap nhat user
 func (h *UserHandler) UpdateUser(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, errorParam := strconv.Atoi(c.Param("id"))
+	if errorParam != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
 
 	var request dto.UpdateUserRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
@@ -60,18 +64,29 @@ func (h *UserHandler) UpdateUser(c *gin.Context) {
 
 // API xoa user
 func (h *UserHandler) DeleteUser(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, errorParam := strconv.Atoi(c.Param("id"))
+	if errorParam != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
 	err := h.UserUC.DeleteUser(uint(id))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+
 	c.JSON(http.StatusOK, gin.H{"message": "Project deleted successfully"})
 }
 
 // API Lay (Xem chi tiet) user theo ID
 func (h *UserHandler) GetUserByID(c *gin.Context) {
-	id, _ := strconv.Atoi(c.Param("id"))
+	id, errorParam := strconv.Atoi(c.Param("id"))
+	if errorParam != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid ID"})
+		return
+	}
+
 	project, err := h.UserUC.GetUserByID(uint(id))
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Project not found"})

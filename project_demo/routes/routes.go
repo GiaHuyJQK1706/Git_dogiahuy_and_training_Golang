@@ -2,12 +2,14 @@ package routes
 
 import (
 	"project_demo/handler"
+	"project_demo/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
 func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandler, userHandler handler.UserHandler) {
-	projectRoutes := router.Group("/api/projects") // 127.0.0.1:<port>/api/project/
+	// Thêm middleware AuthMiddleware cho nhóm /api/projects
+	projectRoutes := router.Group("/api/projects", middleware.AuthMiddleware()) // 127.0.0.1:<port>/api/project/
 	{
 		projectRoutes.POST("/create", projectHandler.CreateProject)
 		projectRoutes.PUT("/:id", projectHandler.UpdateProject)
@@ -21,7 +23,7 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 		userRoutes.GET("/:user_id/projects", projectHandler.GetProjectsByUser) // Lấy danh sách projects của user, in ra màn hình
 		userRoutes.POST("/creare", userHandler.CreateUser)
 		userRoutes.PUT("/:id", userHandler.UpdateUser)
-		userRoutes.DELETE("/:id", userHandler.DeleteUser)
+		userRoutes.DELETE("/:id", userHandler.DeleteUser) 
 		userRoutes.GET("/:id", userHandler.GetUserByID)
 		userRoutes.GET("/:user_id/projects/export_csv", projectHandler.ExportProjectsByUserCSV)
 	}
@@ -30,6 +32,6 @@ func SetupProjectRoutes(router *gin.Engine, projectHandler handler.ProjectHandle
 func SetupAuthRoutes(router *gin.Engine, authHandler handler.AuthHandler) {
 	authRoutes := router.Group("/api/auth") // 127.0.0.1:<port>/api/auth/
 	{
-		authRoutes.POST("/token", authHandler.GenerateToken)
+		authRoutes.POST("/token", authHandler.GenerateToken) // Tạo token
 	}
 }

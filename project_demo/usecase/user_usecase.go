@@ -23,10 +23,10 @@ func (uuc *userUsecase) CreateUser(request dto.CreateUserRequest) (entities.User
 		Name: request.Name,
 		Email: request.Email,
 		Password: request.Password,
-		CreatedAt: request.CreatedAt,
 	}
 
 	err := uuc.UserRepo.Create(&user)
+
 	return user, err
 }
 
@@ -39,9 +39,9 @@ func (uuc *userUsecase) UpdateUser(id uint, request dto.UpdateUserRequest) (enti
 
 	user.Name = request.Name
 	user.Email = request.Email
-	user.UpdatedAt = request.UpdatedAt
 
 	err = uuc.UserRepo.Update(&user)
+
 	return user, err
 }
 

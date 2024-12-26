@@ -38,6 +38,7 @@ func (r *projectRepository) Delete(id uint) error {
 func (r *projectRepository) GetByID(id uint) (entities.Project, error) {
 	var project entities.Project
 	err := r.DB.First(&project, id).Error
+	
 	return project, err
 }
 
@@ -45,6 +46,7 @@ func (r *projectRepository) GetByID(id uint) (entities.Project, error) {
 func (r *projectRepository) List() ([]entities.Project, error) {
 	var projects []entities.Project
 	err := r.DB.Find(&projects).Error
+
 	return projects, err
 }
 
@@ -54,6 +56,7 @@ func (r *projectRepository) GetProjectsByUserID(userID uint) ([]entities.Project
 	err := r.DB.Preload("Users").Where("id IN (?)",
 		r.DB.Table("project_users").Select("project_id").Where("user_id = ?", userID),
 	).Find(&projects).Error
+
 	return projects, err
 }
 
@@ -63,6 +66,7 @@ func (r *projectRepository) FindProjectsByUserID(userID uint) ([]entities.Projec
 	err := r.DB.Joins("JOIN project_users ON projects.id = project_users.project_id").
 		Where("project_users.user_id = ?", userID).
 		Find(&projects).Error
+
 	return projects, err
 }
 */
